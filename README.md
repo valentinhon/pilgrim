@@ -87,3 +87,20 @@ mpirun can be replaced with your job scheduler, e.g., srun.
 
 **PILGRIM_DEBUG**: set to 1 to allow debug output.
 
+## Analysis
+
+- `pilgrim2text`: display number of function calls per rank (easy-to-show way of opening a pilgrim trace).
+Generates a file for each rank containing the order of MPI functions call by this rank (in a _text/ subfolder).
+
+```bash
+./pilgrim2text ~/pilgrim-logs   
+```
+The parameter must be the path to the pilgrim trace (which is actually in a pilgrim-logs folder).
+
+- `pilgrimCommMatrix`: generate a communication matrix file of the MPI program.
+Matrix is stored under csv format in a `pilgrim_comm_matrix.mat` in the folder containing the trace. 
+
+```bash
+./pilgrimCommMatrix ~/pilgrim-logs
+```
+The parameter must be the path to the pilgrim trace (which is actually in a pilgrim-logs folder).

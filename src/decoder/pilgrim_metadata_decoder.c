@@ -20,7 +20,7 @@ GlobalMetadata* read_metadata(const char* trace_dir) {
     fclose(fh);
 
     gm->trace_dir = strdup(trace_dir);
-    printf("Total procs: %d, Time resolution: %.1fus\n\n", gm->ranks, gm->time_resolution*1000000);
+    //printf("Total procs: %d, Time resolution: %.1fus\n\n", gm->ranks, gm->time_resolution*1000000);
 
     return gm;
 }

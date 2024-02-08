@@ -14,18 +14,22 @@ nodist_noinst_SCRIPTS =
 dist_noinst_SCRIPTS = autogen.sh
 
 lib_LTLIBRARIES = libpilgrim.la
-bin_PROGRAMS = pilgrim_app_generator pilgrim2text
+bin_PROGRAMS = pilgrim_app_generator pilgrim2text pilgrimCommMatrix
 
 
 libpilgrim_la_SOURCES =
 
-pilgrim_app_generator_SOURCES = 
+pilgrim_app_generator_SOURCES =
 pilgrim_app_generator_CFLAGS = $(AM_CFLAGS)
 pilgrim_app_generator_LDFLAGS = -lm
 
-pilgrim2text_SOURCES = 
+pilgrim2text_SOURCES =
 pilgrim2text_CFLAGS = $(AM_CFLAGS)
 pilgrim2text_LDFLAGS = -lm
+
+pilgrimCommMatrix_SOURCES =
+pilgrimCommMatrix_CFLAGS = $(AM_CFLAGS)
+pilgrimCommMatrix_LDFLAGS = -lm
 
 
 AM_CPPFLAGS = -g -rdynamic
