@@ -25,7 +25,7 @@
 pthread_mutex_t g_mutex = PTHREAD_MUTEX_INITIALIZER;
 
 
-#define OUTPUT_DIR                  "pilgrim-logs"
+char* OUTPUT_DIR = NULL;
 char GRAMMAR_OUTPUT_PATH[256];
 char INTERVALS_OUTPUT_PATH[256];
 char DURATIONS_OUTPUT_PATH[256];
@@ -594,13 +594,19 @@ void logger_init(int mpi_rank, int mpi_size) {
 
     // Set the output paths in advance because
     // application may change the cwd duration execution
-    char cwd[256] = {0};
-    getcwd(cwd, 256);
-    sprintf(METADATA_OUTPUT_PATH, "%s/%s/pilgrim.mt", cwd, OUTPUT_DIR);
-    sprintf(GRAMMAR_OUTPUT_PATH,  "%s/%s/grammars.dat", cwd, OUTPUT_DIR);
-    sprintf(INTERVALS_OUTPUT_PATH,  "%s/%s/intervals.dat", cwd, OUTPUT_DIR);
-    sprintf(DURATIONS_OUTPUT_PATH,  "%s/%s/durations.dat", cwd, OUTPUT_DIR);
-    sprintf(FUNCS_OUTPUT_PATH,    "%s/%s/funcs.dat", cwd, OUTPUT_DIR);
+
+    OUTPUT_DIR = getenv("PILGRIM_OUTPUT_PATH");
+    if (OUTPUT_DIR == NULL) {
+        OUTPUT_DIR = malloc(sizeof(char) * 256);
+        char cwd[256] = {0};
+        getcwd(cwd, 256);
+        sprintf(OUTPUT_DIR, "%s/pilgrim-logs", cwd)
+    }
+    sprintf(METADATA_OUTPUT_PATH, "%s/pilgrim.mt", OUTPUT_DIR);
+    sprintf(GRAMMAR_OUTPUT_PATH,  "%s/grammars.dat", OUTPUT_DIR);
+    sprintf(INTERVALS_OUTPUT_PATH,  "%s/intervals.dat", OUTPUT_DIR);
+    sprintf(DURATIONS_OUTPUT_PATH,  "%s/durations.dat", OUTPUT_DIR);
+    sprintf(FUNCS_OUTPUT_PATH,    "%s/funcs.dat", OUTPUT_DIR);
 
     if(__logger.rank == 0)
         mkdir(OUTPUT_DIR, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);

@@ -87,6 +87,8 @@ mpirun can be replaced with your job scheduler, e.g., srun.
 
 **PILGRIM_DEBUG**: set to 1 to allow debug output.
 
+**PILGRIM_OUTPUT_PATH**: Set a custom output path for the trace. Defaults to `$(cwd)/pilgrim-logs`
+
 ## Analysis
 
 - `pilgrim2text`: display number of function calls per rank (easy-to-show way of opening a pilgrim trace).
