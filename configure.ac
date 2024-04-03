@@ -3,10 +3,10 @@
 ##     See COPYRIGHT in top-level directory
 ##
 
-AC_PREREQ([2.71])
+AC_PREREQ(2.63)
 
 m4_include([maint/version.m4])
-AC_INIT([pilgrim],[PILGRIM_VERSION_m4])
+AC_INIT([pilgrim],PILGRIM_VERSION_m4)
 
 PILGRIM_VERSION=PILGRIM_VERSION_m4
 AC_SUBST([PILGRIM_VERSION])
@@ -81,23 +81,9 @@ dnl ----------------------------------------------------------------------------
 dnl disable AC_PROG_CC's annoying default of adding -O2 to the CFLAGS
 PAC_PUSH_FLAG([CFLAGS])
 AC_PROG_CC([mpicc])
-m4_warn([obsolete],
-[m4_warn([obsolete],
-[AC_PROG_CC_C99 is obsolete; use AC_PROG_CC
-])dnl
-AC_REQUIRE(AC_PROG_CC) is obsolete; use AC_PROG_CC
-])dnl
-AC_REQUIRE(AC_PROG_CC)
+AC_PROG_CC_C99([mpicc])
 PAC_POP_FLAG([CFLAGS])
-m4_warn([obsolete],
-[The preprocessor macro `STDC_HEADERS' is obsolete.
-  Except in unusual embedded environments, you can safely include all
-  ISO C90 headers unconditionally.])dnl
-# Autoupdate added the next two lines to ensure that your configure
-# script's behavior did not change.  They are probably safe to remove.
-AC_CHECK_INCLUDES_DEFAULT
-AC_PROG_EGREP
-
+AC_HEADER_STDC
 
 # required pre-Automake-1.14
 AM_PROG_CC_C_O
@@ -120,10 +106,10 @@ dnl ----------------------------------------------------------------------------
 PAC_ARG_STRICT
 
 #PAC_APPEND_FLAG([-fno-common], [CFLAGS])
-AX_CHECK_COMPILE_FLAG([-fcommon],
-    [AX_APPEND_FLAG([-fcommon])],
-    [AC_MSG_WARN([-fcommon not supported, you may have to set CFLAGS to avoid multiple definitions error.])
-])
+#AX_CHECK_COMPILE_FLAG([-fcommon],
+#    [AX_APPEND_FLAG([-fcommon])],
+#    [AC_MSG_WARN([-fcommon not supported, you may have to set CFLAGS to avoid multiple definitions error.])
+#])
 
 AC_ARG_WITH(zfp,
 	AS_HELP_STRING([--with-zfp=DIR], [Specify the install location of ZFP]),,
@@ -182,7 +168,7 @@ AC_CHECK_LIB([pthread],[pthread_key_create],have_pthreads=yes)
 if test "$have_pthreads" = "yes" ; then
     PAC_PREPEND_FLAG([-lpthread],[LIBS])
 else
-    AC_MSG_ERROR(pthreads not found on the system)
+    AC_ERROR([pthreads not found on the system])
 fi
 
 # look for zstd
@@ -192,7 +178,7 @@ if test "$have_zstd" = "yes" ; then
     PAC_PREPEND_FLAG([-lzstd],[LIBS])
 else
     if test "${with_sz}" == "" ; then
-        AC_MSG_ERROR(zstd not found on the system, please install libzstd-dev)
+        AC_ERROR([zstd not found on the system, please install libzstd-dev])
     fi
 fi
 
