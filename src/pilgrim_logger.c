@@ -600,7 +600,7 @@ void logger_init(int mpi_rank, int mpi_size) {
         OUTPUT_DIR = malloc(sizeof(char) * 256);
         char cwd[256] = {0};
         getcwd(cwd, 256);
-        sprintf(OUTPUT_DIR, "%s/pilgrim-logs", cwd)
+        sprintf(OUTPUT_DIR, "%s/pilgrim-logs", cwd);
     }
     sprintf(METADATA_OUTPUT_PATH, "%s/pilgrim.mt", OUTPUT_DIR);
     sprintf(GRAMMAR_OUTPUT_PATH,  "%s/grammars.dat", OUTPUT_DIR);
