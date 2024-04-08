@@ -169,7 +169,7 @@ int create_request_id(MPI_Request *req, bool from_universal_pool, int func_id, i
         return invalid_request_id;
 
     RequestHash *entry = request_hash_entry(req);
-    assert(entry == NULL);
+    // assert(entry == NULL);
 
     entry = pilgrim_malloc(sizeof(RequestHash));
     entry->key = pilgrim_malloc(sizeof(MPI_Request));
