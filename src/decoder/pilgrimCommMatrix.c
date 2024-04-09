@@ -166,7 +166,7 @@ int main(int argc, char** argv) {
 
     /* Print program duration */
     clock_gettime(CLOCK_MONOTONIC, &finish);
-    double time_elapsed = finish.tv_nsec-start.tv_nsec + (finish.tv_sec - star.tv_sec) * 1000000000;
+    double time_elapsed = finish.tv_nsec-start.tv_nsec + (finish.tv_sec - start.tv_sec) * 1000000000;
     printf("\n[pilgrim-comm-matrix] *** Elapsed time: %lf nanoseconds. ***\n",time_elapsed);
 
     return 0;
