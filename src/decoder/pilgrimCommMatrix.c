@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <time.h>
 #include "pilgrim.h"
 #include "pilgrim_timings.h"
 #include "pilgrim_reader.h"
@@ -10,18 +11,18 @@
 
 void process_record(int rank, CallSignature* cs,int size, unsigned int matrix[size][size]) {
 
-    /* Second argument of MPI_send : number of elements in the buffer
+    /* Second argument of MPI_send or MPI_Isend: number of elements in the buffer
     * Store it in mpi_count to compute the size of the communication
     */
     unsigned int* mpi_count = (unsigned int*)cs->args[1];
 
-    /* Third argument of MPI_send : MPI_data_type
+    /* Third argument of MPI_send or MPI_Isend: MPI_data_type
     * Store it in mpi_data_size to compute the size of the communication
     */
-    MPI_Datatype mpi_data_size =(MPI_Datatype) cs->args[2];
+    MPI_Datatype* mpi_data_size =(MPI_Datatype*) cs->args[2];
 
     /* Compute size of the communication in bytes */
-    unsigned int comm_size = *mpi_count * sizeof(mpi_data_size);
+    unsigned int comm_size = *mpi_count * sizeof(*mpi_data_size);
 
     /* Get the destination rank */
     int* mpi_destination =  (unsigned int*)cs->args[3];
@@ -114,6 +115,10 @@ int main(int argc, char** argv) {
     if (argc==3)
         output_file=argv[2];
 
+     /* Starting processing of trace */
+    printf("[pilgrim-comm-matrix] Starting matrix computation...\n");
+    struct timespec start, finish;
+    clock_gettime(CLOCK_MONOTONIC, &start);
 
     // 0. Read metadata
     GlobalMetadata *gm = read_metadata(argv[1]);
@@ -140,7 +145,7 @@ int main(int argc, char** argv) {
             int sym = cfg->unique_grammars[ugi][i];
             CallSignature *cs = &(cst->cs_list[sym]);
 
-            if (cs->func_id ==ID_MPI_Send)
+            if (cs->func_id ==ID_MPI_Send || cs->func_id== ID_MPI_Isend)
             {
                 // Fill the matrix by reading parameters of the MPI_send in CallSignature* cs
                 process_record(rank, cs, gm->ranks, matrix);
@@ -159,6 +164,10 @@ int main(int argc, char** argv) {
     free_cst(cst);
     free_cfg(cfg);
 
+    /* Print program duration */
+    clock_gettime(CLOCK_MONOTONIC, &finish);
+    double time_elapsed = finish.tv_sec-start.tv_sec;
+    printf("\n[pilgrim-comm-matrix] *** Elapsed time: %lf nanoseconds. ***\n",time_elapsed);
 
     return 0;
 }
