@@ -109,3 +109,5 @@ pilgrim_decoder
 pilgrim_app_generator
 pilgrim2text
 pilgrim-logs
+/.idea
+/build
