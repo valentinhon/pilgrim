@@ -99,7 +99,7 @@ Generates a file for each rank containing the order of MPI functions call by thi
 ```
 The parameter must be the path to the pilgrim trace (which is actually in a pilgrim-logs folder).
 
-- `pilgrimCommMatrix`: generate a communication matrix file of the MPI program.
+- `pilgrim_communication_matrix`: generate a communication matrix file of the MPI program.
 Matrix is stored under csv format in a `pilgrim_comm_matrix.mat` in the folder containing the trace. 
 
 ```bash

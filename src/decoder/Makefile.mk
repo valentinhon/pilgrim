@@ -24,10 +24,17 @@ pilgrim2text_SOURCES += \
 	src/decoder/pilgrim_read_args.c src/decoder/pilgrim_read_args_special.c \
 	src/pilgrim_utils.c src/dlmalloc.c
 
-pilgrimCommMatrix_SOURCES += \
-	src/decoder/pilgrimCommMatrix.c \
+pilgrim_communication_matrix_SOURCES += \
+	src/decoder/pilgrim_communication_matrix.c \
 	src/decoder/pilgrim_metadata_decoder.c \
 	src/decoder/pilgrim_cfg_decoder.c src/decoder/pilgrim_cst_decoder.c \
 	src/decoder/pilgrim_read_args.c src/decoder/pilgrim_read_args_special.c \
 	src/pilgrim_utils.c src/dlmalloc.c
 	
+pilgrim_contention_SOURCES += \
+	src/decoder/pilgrim_contention.c \
+    src/decoder/pilgrim_metadata_decoder.c \
+    src/decoder/pilgrim_cfg_decoder.c src/decoder/pilgrim_cst_decoder.c \
+    src/decoder/pilgrim_time_decoder.c \
+    src/decoder/pilgrim_read_args.c src/decoder/pilgrim_read_args_special.c \
+    src/pilgrim_utils.c src/dlmalloc.c
